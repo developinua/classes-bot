@@ -1,0 +1,16 @@
+﻿.idea
+.history
+.vscode
+.vs
+.git
+.gitignore
+.dockerignore
+*.sln
+*.*.DotSettings.user
+docker-compose*
+Dockerfile*
+**/bin/
+**/obj/
+global.json
+LICENSE
+README.md

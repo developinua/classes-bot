@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  classes.api:
-    container_name: classes.api
-    image: classes.api
+  api:
+    container_name: api
+    image: nbulyha/classes-bot/api
     build:
-      context: .
-      dockerfile: Classes.Infrastructure/api/Dockerfile
+      context: ../
+      dockerfile: ./Infrastructure/api/Dockerfile
     deploy:
       resources:
         limits:
@@ -25,14 +25,14 @@ services:
       - "4000:4000"
       - "4001:4001"
     networks:
-      - classes_net
+      - classes_bot_net
 
-  classes.db:
-    container_name: classes.db
-    image: nbulyha/classes.db
+  db:
+    container_name: db
+    image: nbulyha/classes-bot/db
     restart: unless-stopped
     build:
-      context: Classes.Infrastructure/database
+      context: ./database
       dockerfile: Dockerfile
     deploy:
       resources:
@@ -47,23 +47,24 @@ services:
     volumes:
       - my_db_data:/var/lib/postgresql/data
     networks:
-      - classes_net
+      - classes_bot_net
 
-  classes.reverse_proxy:
-    container_name: classes.reverse_proxy
+  reverse_proxy:
+    container_name: reverse_proxy
+    image: nbulyha/classes-bot/reverse_proxy
     build:
-      context: ./Classes.Infrastructure/nginx
+      context: ./nginx
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     networks:
-      - classes_net
+      - classes_bot_net
 
 volumes:
   my_db_data:
 
 networks:
-  classes_net:
+  classes_bot_net:
     driver: bridge
