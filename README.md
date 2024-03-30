@@ -1,2 +1,2 @@
 # Classes Bot
-Telegram bot to manage a classes attendance.
+Telegram bot to manage classes attendance.
