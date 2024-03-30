@@ -15,8 +15,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:4001;http://+:4000
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=Certificates/classes.pem
-      - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=Certificates/classes.key
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=Certificates/zouk.in.ua.pem
+      - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=Certificates/zouk.in.ua.key
       - TelegramBot__Url=${TelegramBot_Url}
       - TelegramBot__Name=${TelegramBot_Name}
       - TelegramBot__Token=${TelegramBot_Token}

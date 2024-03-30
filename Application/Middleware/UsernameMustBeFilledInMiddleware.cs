@@ -17,6 +17,13 @@ public class UsernameMustBeFilledInMiddleware(
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         var update = await updateService.GetUpdateFromHttpRequest(context);
+
+        if (update is null)
+        {
+            await next(context);
+            return;
+        }
+
         var username = updateService.GetUsername(update);
 
         if (!string.IsNullOrEmpty(username))
@@ -26,11 +33,11 @@ public class UsernameMustBeFilledInMiddleware(
         }
 
         var chatId = updateService.GetChatId(update);
-        
+
         botService.UseChat(chatId);
         await botService.SendTextMessageAsync(localizer.GetString("UsernameIsNotFilledIn"), default);
         logger.LogWarning("Username is not filled in for chat {ChatId}", chatId);
-        
+
         context.Response.StatusCode = 200;
     }
 }

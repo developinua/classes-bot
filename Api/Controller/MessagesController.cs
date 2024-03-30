@@ -23,7 +23,7 @@ public class MessagesController(IUpdateService updateService, IMediator mediator
             await updateService.HandleFailureResponse(chatId, cancellationToken);
             return Results.Ok();
         }
-	
+
         var response = await mediator.Send(request.Data, cancellationToken);
 
         if (response.IsFailure())

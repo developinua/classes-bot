@@ -23,7 +23,7 @@ public interface IUpdateService
     Result<IRequest<Result>> GetRequestFromUpdate(Update update);
     Task HandleSuccessResponse(long chatId);
     Task HandleFailureResponse(long chatId, CancellationToken cancellationToken, string? responseMessage = null);
-    Task<Update> GetUpdateFromHttpRequest(HttpContext httpContext);
+    Task<Update?> GetUpdateFromHttpRequest(HttpContext httpContext);
 }
 
 public class UpdateService(
@@ -57,14 +57,14 @@ public class UpdateService(
         logger.LogError(
             "Update handler not found\n" +
             "Update type: {updateType}\n" +
-            "Update message type: {messageType}\\.",
+            "Update message type: {messageType}.",
             update.Type,
-            update.Message?.Type.ToString() ?? "No message type was specified\\.");
+            update.Message?.Type.ToString() ?? "No message type was specified.");
 
-        return Result.Failure<IRequest<Result>>().WithMessage("Update handler not found\\.");
+        return Result.Failure<IRequest<Result>>().WithMessage("Update handler not found.");
     }
 
-    public async Task<Update> GetUpdateFromHttpRequest(HttpContext httpContext)
+    public async Task<Update?> GetUpdateFromHttpRequest(HttpContext httpContext)
     {
         // Needed to re-read the stream
         httpContext.Request.EnableBuffering();
@@ -79,13 +79,13 @@ public class UpdateService(
         // Reset the stream position for the next middleware
         httpContext.Request.Body.Position = 0;
 
-        return JsonConvert.DeserializeObject<Update>(body)!;
+        return JsonConvert.DeserializeObject<Update>(body);
     }
 
     public Task HandleSuccessResponse(long chatId)
     {
         logger.LogInformation(
-            "Successful response from chat {ChatId}\\. Date: {DateTime}\\.",
+            "Successful response from chat {ChatId}. Date: {DateTime}.",
             chatId.ToString(),
             DateTime.UtcNow);
         return Task.CompletedTask;
@@ -97,9 +97,9 @@ public class UpdateService(
         string? responseMessage = null)
     {
         logger.LogError(
-            "Chat id: {ChatId}\nMessage:\n{ErrorMessage}\\.",
+            "Chat id: {ChatId}\nMessage:\n{ErrorMessage}.",
             chatId.ToString(),
-            responseMessage ?? "No message was specified\\.");
+            responseMessage ?? "No message was specified.");
 
         botService.UseChat(chatId);
         await botService.SendTextMessageAsync("Can't process the message\\.", cancellationToken);

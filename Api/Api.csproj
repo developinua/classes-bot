@@ -23,21 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Certificates\classes.key">
+    <None Remove="Certificates\zouk.in.ua.key" />
+    <Content Include="Certificates\zouk.in.ua.key">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Certificates\classes.pem">
+    </Content>
+    <None Remove="Certificates\zouk.in.ua.pem" />
+    <Content Include="Certificates\zouk.in.ua.pem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Certificates\classes.crt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Certificates\classes.csr">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Certificates\classes.pfx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
 

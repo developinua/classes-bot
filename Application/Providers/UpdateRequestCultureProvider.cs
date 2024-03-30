@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Application.Services;
 using Microsoft.AspNetCore.Http;
@@ -13,8 +14,12 @@ public class UpdateRequestCultureProvider : IRequestCultureProvider
     {
         var cultureService = httpContext.RequestServices.GetRequiredService<ICultureService>();
         var updateService = httpContext.RequestServices.GetRequiredService<IUpdateService>();
-        
+
         var update = await updateService.GetUpdateFromHttpRequest(httpContext);
+
+        if (update is null)
+            return new ProviderCultureResult("en-US");
+
         var username = updateService.GetUsername(update);
         var userCultureCode = await cultureService.GetCodeByUsername(username);
 
@@ -24,7 +29,7 @@ public class UpdateRequestCultureProvider : IRequestCultureProvider
         // case before user is registered
         var cultureName = updateService.GetUserCultureName(update.Message);
         var cultureCode = await cultureService.GetCodeByCultureName(cultureName);
-        
+
         return new ProviderCultureResult(cultureCode);
     }
 }
