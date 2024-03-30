@@ -30,5 +30,5 @@ Api/Properties
 Api/appsettings.json
 
 # ssl keys for nginx configuration
-Api/Certificates/
-Infrastructure/nginx/ssl/*
+Api/Certificates
+Infrastructure/nginx/ssl
