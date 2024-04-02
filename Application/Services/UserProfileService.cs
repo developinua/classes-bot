@@ -9,14 +9,17 @@ namespace Application.Services;
 
 public interface IUserProfileService
 {
+    Task<Result> Create(UserProfile userProfile);
     UserProfile GetUserProfileFromMessage(Message message, Culture culture);
     UserProfile GetUserProfileFromCallback(CallbackQuery callback, Culture culture);
     Task<Result> UpdateUserProfile(UserProfile userProfile);
-    Task<Result> Create(UserProfile userProfile);
 }
 
 public class UserProfileService(IUserProfileRepository userProfileRepository, IMapper mapper) : IUserProfileService
 {
+    public async Task<Result> Create(UserProfile userProfile) =>
+        await userProfileRepository.CreateAsync(userProfile);
+
     public UserProfile GetUserProfileFromMessage(Message message, Culture culture)
     {
         return new UserProfile
@@ -54,7 +57,4 @@ public class UserProfileService(IUserProfileRepository userProfileRepository, IM
         
         return await userProfileRepository.UpdateAsync(updatedUserProfile);
     }
-
-    public async Task<Result> Create(UserProfile userProfile) =>
-        await userProfileRepository.CreateAsync(userProfile);
 }

@@ -68,11 +68,5 @@ namespace Application.Resources.Handlers.Checkin {
                 return ResourceManager.GetString("SendLocation", resourceCulture);
             }
         }
-        
-        internal static string SendLocationRequest {
-            get {
-                return ResourceManager.GetString("SendLocationRequest", resourceCulture);
-            }
-        }
     }
 }

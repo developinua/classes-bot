@@ -8,6 +8,7 @@ using Domain.Models.Enums;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using ResultNet;
 
 namespace Data.Repositories;
@@ -17,17 +18,19 @@ public interface IUserSubscriptionRepository
     Task<Result> Add(UserSubscription userSubscription);
     Task<Result> AddRange(IReadOnlyCollection<UserSubscription> userSubscriptions);
     Task<Result<UserSubscription?>> GetById(long id);
-    Task<Result<IReadOnlyCollection<UserSubscription>>> GetByUsername(string username);
-    Task<Result<UserSubscription?>> GetByUsernameAndType(string username, SubscriptionType subscriptionType);
+    Task<Result<IReadOnlyCollection<UserSubscription>>> GetActiveByUsername(string username);
+    Task<Result<UserSubscription?>> GetActiveByUsernameAndType(string username, SubscriptionType subscriptionType);
     Task<Result<IReadOnlyCollection<UserSubscription>>> GetUserSubscriptions(string username);
+
     Task<Result<IReadOnlyCollection<UserSubscription>>> GetUserSubscriptionsByType(
         string username, SubscriptionType subscriptionType);
-    Task<Result> Update(UserSubscription userSubscription);
+
+    Task<Result> ReduceRemainingClasses(UserSubscription userSubscription);
 }
 
 public class UserSubscriptionRepository(
-        PostgresDbContext dbContext,
-        ILogger<UserSubscriptionRepository> logger)
+    PostgresDbContext dbContext,
+    ILogger<UserSubscriptionRepository> logger)
     : IUserSubscriptionRepository
 {
     public async Task<Result> Add(UserSubscription userSubscription)
@@ -36,7 +39,7 @@ public class UserSubscriptionRepository(
         {
             await dbContext.UserSubscriptions.AddAsync(userSubscription);
             await dbContext.SaveChangesAsync();
-            
+
             return Result.Success();
         }
         catch (Exception ex)
@@ -52,7 +55,7 @@ public class UserSubscriptionRepository(
         {
             await dbContext.UserSubscriptions.AddRangeAsync(userSubscriptions);
             await dbContext.SaveChangesAsync();
-            
+
             return Result.Success();
         }
         catch (Exception ex)
@@ -79,12 +82,16 @@ public class UserSubscriptionRepository(
         }
     }
 
-    public async Task<Result<IReadOnlyCollection<UserSubscription>>> GetByUsername(string username)
+    public async Task<Result<IReadOnlyCollection<UserSubscription>>> GetActiveByUsername(string username)
     {
         try
         {
             var userSubscriptions = await dbContext.UserSubscriptions
-                .Where(x => x.User.NickName.Equals(username) && x.RemainingClasses > 0)
+                .Include(x => x.Subscription)
+                .Where(x =>
+                    x.User.NickName.Equals(username)
+                    && x.RemainingClasses > 0
+                    && x.Subscription.IsActive)
                 .ToListAsync();
             return Result.Success(userSubscriptions.AsReadOnlyCollection());
         }
@@ -96,7 +103,7 @@ public class UserSubscriptionRepository(
         }
     }
 
-    public async Task<Result<UserSubscription?>> GetByUsernameAndType(
+    public async Task<Result<UserSubscription?>> GetActiveByUsernameAndType(
         string username,
         SubscriptionType subscriptionType)
     {
@@ -162,13 +169,22 @@ public class UserSubscriptionRepository(
                 .WithMessage("Can't get active user subscriptions with classes by username.");
         }
     }
-    
-    public async Task<Result> Update(UserSubscription userSubscription)
+
+    public async Task<Result> ReduceRemainingClasses(UserSubscription userSubscription)
     {
         try
         {
-            dbContext.UserSubscriptions.Update(userSubscription);
-            await dbContext.SaveChangesAsync();
+            var updatedRemainingClasses = userSubscription.RemainingClasses--;
+            var affectedRows = await dbContext.UserSubscriptions
+                .Where(x => x.Id == userSubscription.Id)
+                .ExecuteUpdateAsync(updates => updates.SetProperty(p => p.RemainingClasses, updatedRemainingClasses));
+
+            if (affectedRows == 0)
+            {
+                logger.LogError("Remaining classes where not updated {RemainingClasses}",
+                    JsonConvert.SerializeObject(userSubscription));
+                Result.Failure().WithMessage("Remaining classes where not updated");
+            }
             
             return Result.Success();
         }

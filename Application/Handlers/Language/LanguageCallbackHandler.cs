@@ -26,16 +26,16 @@ public class LanguageCallbackHandler(
 
         botService.UseChat(request.ChatId);
         await botService.SendChatActionAsync(cancellationToken);
-        
+
         var cultureName = callbackExtractorService.GetCultureNameFrom(
             request.CallbackQuery.Data,
             request.CallbackPattern);
         var culture = await cultureService.GetByName(cultureName);
         var userProfile = userProfileService.GetUserProfileFromCallback(request.CallbackQuery, culture);
-        var updateResult = await userProfileService.UpdateUserProfile(userProfile);
-        
-        if (updateResult.IsFailure()) return updateResult;
-        
+        var updateUserProfileResult = await userProfileService.UpdateUserProfile(userProfile);
+
+        if (updateUserProfileResult.IsFailure()) return updateUserProfileResult;
+
         await botService.SendTextMessageAsync(localizer.GetString("ManageClasses"), cancellationToken);
         return Result.Success();
     }

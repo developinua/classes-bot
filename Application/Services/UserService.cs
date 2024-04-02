@@ -49,21 +49,21 @@ public class UserService(
         await using var transaction = await dbContext.Database.BeginTransactionAsync();
         try
         {
-            var profileCreate = await userProfileService.Create(userProfile);
+            var profile = await userProfileService.Create(userProfile);
 
-            if (profileCreate.IsFailure())
+            if (profile.IsFailure())
             {
                 await transaction.RollbackAsync();
                 return Result.Failure().WithMessage("Failed to create user profile");
             }
             
-            var userCreate = await userRepository.CreateAsync(new User
+            var user = await userRepository.CreateAsync(new User
             {
                 NickName = nickname,
                 UserProfile = userProfile
             });
 
-            if (userCreate.IsFailure())
+            if (user.IsFailure())
             {
                 await transaction.RollbackAsync();
                 return Result.Failure().WithMessage("Failed to create user");

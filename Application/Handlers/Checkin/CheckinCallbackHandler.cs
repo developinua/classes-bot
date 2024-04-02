@@ -24,7 +24,6 @@ public class CheckinCallbackHandler(
             return Result.Failure().WithMessage("Invalid check-in parameters.");
 
         botService.UseChat(request.ChatId);
-
         await botService.SendChatActionAsync(cancellationToken);
 
         var userSubscriptionId = callbackExtractorService.GetUserSubscriptionId(
@@ -43,16 +42,15 @@ public class CheckinCallbackHandler(
             return Result.Failure().WithMessage("No available classes.");
         }
         
-        var checkinResult = await userSubscriptionService.CheckinOnClass(userSubscription.Data);
+        var checkin = await userSubscriptionService.CheckinOnClass(userSubscription.Data);
 
-        if (checkinResult.IsFailure())
+        if (checkin.IsFailure())
         {
             await botService.SendTextMessageAsync(localizer.GetString("ClassCheckinProblem"), cancellationToken);
             return Result.Failure().WithMessage("There was a problem with class check-in.");
         }
         
         await botService.SendTextMessageAsync("*💚*", cancellationToken);
-
         return Result.Success();
     }
 }

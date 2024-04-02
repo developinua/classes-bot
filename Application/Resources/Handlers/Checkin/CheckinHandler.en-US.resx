@@ -30,7 +30,4 @@
     <data name="SendLocation" xml:space="preserve">
         <value>Please send me your location, so I can check if you are on classes now\.</value>
     </data>
-    <data name="SendLocationRequest" xml:space="preserve">
-        <value>Send location</value>
-    </data>
 </root>

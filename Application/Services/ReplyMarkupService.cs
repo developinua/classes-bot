@@ -51,7 +51,7 @@ public class ReplyMarkupService(IStringLocalizer<SubscriptionsHandler> localizer
         foreach (var userSubscription in userSubscriptions)
         {
             // todo: get localized name from the Localization db
-            var name = $"{userSubscription.Subscription.Name} ({userSubscription.RemainingClasses})";
+            var name = $"Name: {userSubscription.Subscription.Name} (Remaining: {userSubscription.RemainingClasses})";
             replyKeyboardMarkup.AddButton(name, $"user-subscription-id:{userSubscription.Id}").NewLine();
         }
 
