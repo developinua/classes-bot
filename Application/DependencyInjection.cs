@@ -2,27 +2,25 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Application.Handlers.Exceptions;
-using Application.Handlers.Start;
-using Application.Middleware;
-using Application.Providers;
-using Application.Services;
-using Data.Context;
-using Data.Repositories;
-using Domain.Mapper;
-using Domain.Models.Settings;
-using Domain.Requests.Bot;
-using Domain.Validators;
+using Application.Common.Interfaces;
+using Application.Common.Mapper;
+using Application.Common.Middleware;
+using Application.Common.Providers;
+using Application.Common.Requests;
+using Application.Common.Services;
+using Application.Common.Validators;
+using Application.Features.Start;
+using Application.Features.Subscriptions;
+using Core.Settings;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 
-namespace Application;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
@@ -30,59 +28,47 @@ public static class DependencyInjection
     {
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
-        
+
         return services;
     }
 
     public static IServiceCollection AddAppServices(this IServiceCollection services)
     {
-        services.AddScoped<IBotService, BotService>();
         services.AddScoped<IUpdateService, UpdateService>();
         services.AddScoped<IReplyMarkupService, ReplyMarkupService>();
         services.AddScoped<ICallbackExtractorService, CallbackExtractorService>();
-        
+
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserSubscriptionService, UserSubscriptionService>();
         services.AddScoped<IUserProfileService, UserProfileService>();
+        services.AddScoped<
+            Application.Features.Language.IUserProfileService,
+            Application.Features.Language.UserProfileService>();
         services.AddScoped<ICultureService, CultureService>();
-        
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-        services.AddScoped<IUserProfileRepository, UserProfileRepository>();
-        services.AddScoped<IUserSubscriptionRepository, UserSubscriptionRepository>();
-        services.AddScoped<ICultureRepository, CultureRepository>();
-        
+
         return services;
     }
 
     public static IServiceCollection AddMiddlewares(this IServiceCollection services)
     {
         services.AddScoped<UsernameMustBeFilledInMiddleware>();
-
         return services;
     }
 
-    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddDbContext<PostgresDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-        return services;
-    }
-    
     public static IServiceCollection AddMediator(this IServiceCollection services)
     {
         services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<StartHandler>());
         return services;
     }
-    
+
     public static IServiceCollection AddAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(UpdateProfile));
         services.AddValidatorsFromAssemblyContaining<MessageValidator>();
-        
+
         return services;
     }
-    
+
     public static IServiceCollection AddBotRequests(this IServiceCollection services)
     {
         // Register all classes that is assigned from bot requests
@@ -104,7 +90,7 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     public static IServiceCollection AddCustomLocalizations(this IServiceCollection services)
     {
         services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -115,7 +101,7 @@ public static class DependencyInjection
                 new CultureInfo("en-US"),
                 new CultureInfo("uk-UA")
             };
-            
+
             options.DefaultRequestCulture = new RequestCulture("en-US");
             options.SupportedCultures = supportedCultures;
             options.SupportedUICultures = supportedCultures;
@@ -125,7 +111,7 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     public static IApplicationBuilder UseCustomRequestLocalization(this IApplicationBuilder app)
     {
         var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>()!.Value;
@@ -133,11 +119,10 @@ public static class DependencyInjection
 
         return app;
     }
-    
+
     public static IApplicationBuilder UseMiddlewares(this IApplicationBuilder app)
     {
         app.UseMiddleware<UsernameMustBeFilledInMiddleware>();
-
         return app;
     }
 

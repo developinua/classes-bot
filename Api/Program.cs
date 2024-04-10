@@ -1,5 +1,4 @@
-using Application;
-using Application.Services;
+using Infrastructure.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +21,7 @@ await builder.Services.SetTelegramBotWebHook(builder.Configuration);
 var app = builder.Build();
 
 app
+    .UseHsts()
     .UseHttpsRedirection()
     .UseRouting()
     .UseCustomRequestLocalization()
