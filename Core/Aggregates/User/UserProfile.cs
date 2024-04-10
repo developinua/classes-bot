@@ -1,6 +1,7 @@
-﻿using Core.Entities.Base;
+﻿using Core.Entities;
+using Core.Entities.Base;
 
-namespace Core.Entities.User;
+namespace Core.Aggregates.User;
 
 public class UserProfile : BaseModel
 {

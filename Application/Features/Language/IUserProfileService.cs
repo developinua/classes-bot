@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Entities.User;
+using Core.Aggregates.User;
 
 namespace Application.Features.Language;
 

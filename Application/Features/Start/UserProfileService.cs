@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
-using Core.Entities.User;
+using Core.Aggregates.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Start;

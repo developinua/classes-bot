@@ -1,6 +1,6 @@
 ﻿using Core.Entities.Base;
 
-namespace Core.Entities.User;
+namespace Core.Aggregates.User;
 
 public class BotUser : BaseModel
 {

@@ -1,8 +1,8 @@
 using System;
 using System.Text.RegularExpressions;
 using Application.Common.Interfaces;
+using Core.Aggregates.Subscription;
 using Core.Entities;
-using Core.Entities.Subscription;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Services;

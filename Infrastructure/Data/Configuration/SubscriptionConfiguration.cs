@@ -1,4 +1,4 @@
-﻿using Core.Entities.Subscription;
+﻿using Core.Aggregates.Subscription;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

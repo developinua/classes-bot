@@ -1,4 +1,4 @@
-using Core.Entities.Subscription;
+using Core.Aggregates.Subscription;
 
 namespace Application.Common.Interfaces;
 

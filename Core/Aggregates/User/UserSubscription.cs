@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Core.Entities.Base;
 
-namespace Core.Entities.User;
+namespace Core.Aggregates.User;
 
 public class UserSubscription : BaseModel
 {

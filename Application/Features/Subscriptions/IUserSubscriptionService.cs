@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Entities.Subscription;
-using Core.Entities.User;
+using Core.Aggregates.Subscription;
+using Core.Aggregates.User;
 using ResultNet;
 
 namespace Application.Features.Subscriptions;

@@ -3,7 +3,7 @@ using Core.Entities.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Core.Entities.Subscription;
+namespace Core.Aggregates.Subscription;
 
 public class Subscription : BaseModel
 {

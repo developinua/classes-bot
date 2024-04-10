@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Aggregates.User;
 using Core.Entities;
-using Core.Entities.User;
 using ResultNet;
 using Telegram.Bot.Types;
 

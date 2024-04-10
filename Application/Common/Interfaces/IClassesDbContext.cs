@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Aggregates.Subscription;
+using Core.Aggregates.User;
 using Core.Entities;
-using Core.Entities.Subscription;
-using Core.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Application.Common.Interfaces;
 using Application.Common.Utils;
-using Core.Entities.Subscription;
-using Core.Entities.User;
+using Core.Aggregates.Subscription;
+using Core.Aggregates.User;
 using Microsoft.Extensions.Localization;
 using Telegram.Bot.Types.ReplyMarkups;
 

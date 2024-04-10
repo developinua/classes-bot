@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Core.Entities.User;
+using Core.Aggregates.User;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Common.Interfaces;
