@@ -12,5 +12,6 @@ Dockerfile*
 **/bin/
 **/obj/
 global.json
+Infrastructure-Internal/Resources/code.png
 LICENSE
 README.md
