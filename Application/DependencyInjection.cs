@@ -2,9 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Application.Features.Start;
-using Application.Features.Subscriptions;
-using Application.Interfaces;
 using Application.Mapper;
 using Application.Middleware;
 using Application.Providers;
@@ -12,6 +9,9 @@ using Application.Services;
 using Application.Validators;
 using Core.BotRequests;
 using Core.Settings;
+using Features.Interfaces;
+using Features.Start;
+using Features.Subscriptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
@@ -42,8 +42,8 @@ public static class DependencyInjection
         services.AddScoped<IUserSubscriptionService, UserSubscriptionService>();
         services.AddScoped<IUserProfileService, UserProfileService>();
         services.AddScoped<
-            Application.Features.Language.IUserProfileService,
-            Application.Features.Language.UserProfileService>();
+            Features.Language.IUserProfileService,
+            Features.Language.UserProfileService>();
         services.AddScoped<ICultureService, CultureService>();
 
         return services;

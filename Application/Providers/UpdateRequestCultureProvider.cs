@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Application.Interfaces;
+using Features.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;

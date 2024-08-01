@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Application.Features.Start;
-using Application.Interfaces;
+using Features.Interfaces;
+using Features.Start;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;

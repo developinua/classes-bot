@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using Application.Interfaces;
 using Core.Aggregates.Subscription;
 using Core.Aggregates.User;
 using Core.Entities;
+using Features.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Context;
