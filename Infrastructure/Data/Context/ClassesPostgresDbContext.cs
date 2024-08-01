@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Application.Common.Interfaces;
+using Application.Interfaces;
 using Core.Aggregates.Subscription;
 using Core.Aggregates.User;
 using Core.Entities;

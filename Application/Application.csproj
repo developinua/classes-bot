@@ -32,35 +32,35 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CheckinHandler.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Checkin\CheckinHandler.en-US.resx">
+    <EmbeddedResource Update="Resources\Handlers\Checkin\CheckinHandler.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CheckinHandler.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Checkin\CheckinHandler.uk-UA.resx">
+    <EmbeddedResource Update="Resources\Handlers\Checkin\CheckinHandler.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CheckinHandler.uk-UA.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Language\LanguageHandler.en-US.resx">
+    <EmbeddedResource Update="Resources\Handlers\Language\LanguageHandler.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageHandler.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Language\LanguageHandler.uk-UA.resx">
+    <EmbeddedResource Update="Resources\Handlers\Language\LanguageHandler.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageHandler.uk-UA.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Start\StartHandler.en-US.resx">
+    <EmbeddedResource Update="Resources\Handlers\Start\StartHandler.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StartHandler.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Start\StartHandler.uk-UA.resx">
+    <EmbeddedResource Update="Resources\Handlers\Start\StartHandler.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StartHandler.uk-UA.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Subscriptions\SubscriptionsHandler.en-US.resx">
+    <EmbeddedResource Update="Resources\Handlers\Subscriptions\SubscriptionsHandler.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SubscriptionsHandler.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Common\Resources\Handlers\Subscriptions\SubscriptionsHandler.uk-UA.resx">
+    <EmbeddedResource Update="Resources\Handlers\Subscriptions\SubscriptionsHandler.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SubscriptionsHandler.uk-UA.Designer.cs</LastGenOutput>
     </EmbeddedResource>

@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
+using Application.Interfaces;
 using Core.Aggregates.User;
 using Microsoft.EntityFrameworkCore;
 

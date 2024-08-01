@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ public class MessagesController(IUpdateService updateService, IMediator mediator
     public async Task<IResult> Update([FromBody] Update update, CancellationToken cancel)
     {
         var chatId = updateService.GetChatId(update);
-        var request = updateService.GetRequestFromUpdate(update);
+        var request = updateService.GetResultRequest(update);
 
         if (request is null)
         {

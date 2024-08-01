@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
+using Application.Interfaces;
 using Core.Aggregates.User;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
 using Application.Features.Language;
+using Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Localization;

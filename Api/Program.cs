@@ -22,7 +22,6 @@ var app = builder.Build();
 
 app
     .UseHsts()
-    .UseHttpsRedirection()
     .UseRouting()
     .UseCustomRequestLocalization()
     .UseExceptionHandler()

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
 using Application.Features.Subscriptions;
+using Application.Interfaces;
 using MediatR;
 using ResultNet;
 

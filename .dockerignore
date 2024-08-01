@@ -9,8 +9,11 @@
 *.*.DotSettings.user
 docker-compose*
 Dockerfile*
+**/Dockerfile*
 **/bin/
 **/obj/
+**/appsettings.Developemnt.json
+Infrastructure-Internal/*
 global.json
 LICENSE
 README.md
