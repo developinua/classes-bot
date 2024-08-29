@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Aggregates\" />
+      <Folder Include="Entities\Aggregates\Attendance\" />
       <Folder Include="Exceptions\" />
     </ItemGroup>
 </Project>

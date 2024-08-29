@@ -1,20 +1,15 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Application.Mapper;
 using Application.Middleware;
-using Application.Providers;
 using Application.Services;
-using Application.Validators;
 using Core.BotRequests;
 using Core.Settings;
 using Features.Interfaces;
 using Features.Start;
 using Features.Subscriptions;
-using FluentValidation;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
@@ -41,10 +36,6 @@ public static class DependencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserSubscriptionService, UserSubscriptionService>();
         services.AddScoped<IUserProfileService, UserProfileService>();
-        services.AddScoped<
-            Features.Language.IUserProfileService,
-            Features.Language.UserProfileService>();
-        services.AddScoped<ICultureService, CultureService>();
 
         return services;
     }
@@ -64,7 +55,7 @@ public static class DependencyInjection
     public static IServiceCollection AddAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(UpdateProfile));
-        services.AddValidatorsFromAssemblyContaining<MessageValidator>();
+        // services.AddValidatorsFromAssemblyContaining<MessageValidator>();
 
         return services;
     }
@@ -87,27 +78,6 @@ public static class DependencyInjection
             else if (callbackRequest.IsAssignableTo(typeof(BotCallbackRequest)))
                 services.AddScoped(typeof(BotCallbackRequest), callbackRequest);
         }
-
-        return services;
-    }
-
-    public static IServiceCollection AddCustomLocalizations(this IServiceCollection services)
-    {
-        services.AddLocalization(options => options.ResourcesPath = "Resources");
-        services.Configure<RequestLocalizationOptions>(options =>
-        {
-            var supportedCultures = new[]
-            {
-                new CultureInfo("en-US"),
-                new CultureInfo("uk-UA")
-            };
-
-            options.DefaultRequestCulture = new RequestCulture("en-US");
-            options.SupportedCultures = supportedCultures;
-            options.SupportedUICultures = supportedCultures;
-            options.ApplyCurrentCultureToResponseHeaders = true;
-            options.RequestCultureProviders.Insert(0, new UpdateRequestCultureProvider());
-        });
 
         return services;
     }

@@ -1,15 +1,13 @@
 using System.Collections.Generic;
-using Core.Aggregates.Subscription;
-using Core.Aggregates.User;
-using Core.Utils;
+using Core.Entities.Aggregates.Subscription;
+using Core.Entities.Aggregates.User;
+using Core.Keyboard;
 using Features.Interfaces;
-using Microsoft.Extensions.Localization;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Services;
 
-// public class ReplyMarkupService(IStringLocalizer<SubscriptionsHandler> localizer) : IReplyMarkupService
-public class ReplyMarkupService(IStringLocalizer<ReplyMarkupService> localizer) : IReplyMarkupService
+public class ReplyMarkupService : IReplyMarkupService
 {
     public IReplyMarkup GetStartMarkup()
     {
@@ -22,8 +20,8 @@ public class ReplyMarkupService(IStringLocalizer<ReplyMarkupService> localizer) 
     public IReplyMarkup GetSubscriptions()
     {
         var replyKeyboardMarkup = InlineKeyboardBuilder.Create()
-            .AddButton(localizer["SubscriptionClasses"], "subscription:class").NewLine()
-            .AddButton(localizer["SubscriptionCourses"], "subscription:course");
+            .AddButton("SubscriptionClasses", "subscription:class").NewLine()
+            .AddButton("SubscriptionCourses", "subscription:course");
         return replyKeyboardMarkup.Build();
     }
 
@@ -31,7 +29,7 @@ public class ReplyMarkupService(IStringLocalizer<ReplyMarkupService> localizer) 
     {
         var type = userSubscription.Subscription.Type == SubscriptionType.Class ? "class" : "course";
         var replyKeyboardMarkup = InlineKeyboardBuilder.Create()
-            .AddButton(localizer["BackToSubscriptions"], $"subscription:{type}");
+            .AddButton("BackToSubscriptions", $"subscription:{type}");
 
         return replyKeyboardMarkup.Build();
     }
@@ -42,9 +40,8 @@ public class ReplyMarkupService(IStringLocalizer<ReplyMarkupService> localizer) 
 
         foreach (var userSubscription in userSubscriptions)
         {
-            // todo: get localized name from the Localization db
             var name = $"Name: {userSubscription.Subscription.Name} (Remaining: {userSubscription.RemainingClasses})";
-            replyKeyboardMarkup.AddButton(name, $"botUser-subscription-id:{userSubscription.Id}").NewLine();
+            replyKeyboardMarkup.AddButton(name, $"user-subscription-id:{userSubscription.Id}").NewLine();
         }
 
         return replyKeyboardMarkup.Build();

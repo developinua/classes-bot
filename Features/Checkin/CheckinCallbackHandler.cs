@@ -3,7 +3,6 @@ using Features.Subscriptions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using ResultNet;
 using Telegram.Bot.Types;
 
@@ -14,7 +13,6 @@ public class CheckinCallbackHandler(
         IClassesDbContext context,
         IUserSubscriptionService userSubscriptionService,
         ICallbackExtractorService callbackExtractorService,
-        IStringLocalizer<CheckinHandler> localizer,
         IValidator<CallbackQuery> callbackQueryValidator)
     : IRequestHandler<CheckinCallbackRequest, Result>
 {
@@ -34,13 +32,13 @@ public class CheckinCallbackHandler(
 
         if (userSubscription is null)
         {
-            await botService.SendTextMessageAsync(localizer.GetString("SubscriptionNotFound"), cancel);
-            return Result.Failure().WithMessage("BotUser subscription not found.");
+            await botService.SendTextMessageAsync("SubscriptionNotFound", cancel);
+            return Result.Failure().WithMessage("User subscription not found.");
         }
 
-        if (!userSubscriptionService.CanCheckinOnClass(userSubscription))
+        if (!userSubscription.CanCheckinOnClass())
         {
-            await botService.SendTextMessageAsync(localizer.GetString("NoAvailableClasses"), cancel);
+            await botService.SendTextMessageAsync("NoAvailableClasses", cancel);
             return Result.Failure().WithMessage("No available classes.");
         }
         
@@ -48,7 +46,7 @@ public class CheckinCallbackHandler(
 
         if (checkin.IsFailure())
         {
-            await botService.SendTextMessageAsync(localizer.GetString("ClassCheckinProblem"), cancel);
+            await botService.SendTextMessageAsync("ClassCheckinProblem", cancel);
             return Result.Failure().WithMessage("There was a problem with class check-in.");
         }
         

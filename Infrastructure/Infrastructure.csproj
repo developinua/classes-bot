@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Specifications\" />
+    <Folder Include="Db\Specifications\" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ namespace Features.Checkin;
 
 public class CheckinCallbackRequest : BotCallbackRequest, IRequest<Result>
 {
-    public override string CallbackPattern => @"(?i)(?<query>check-in-botUser-subscription-id):(?<data>\d+)";
+    public override string CallbackPattern => @"(?i)(?<query>check-in-user-subscription-id):(?<data>\d+)";
     public long ChatId { get; set; }
     public CallbackQuery CallbackQuery { get; set; } = null!;
 }

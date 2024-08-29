@@ -1,9 +1,8 @@
-using Core.Aggregates.Subscription;
-using Core.Aggregates.User;
-using Core.Utils;
+using Core.Entities.Aggregates.Subscription;
+using Core.Entities.Aggregates.User;
+using Core.Keyboard;
 using Features.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -13,7 +12,6 @@ namespace Features.Subscriptions;
 public class UserSubscriptionService(
     IBotService botService,
     IClassesDbContext context,
-    IStringLocalizer<SubscriptionsHandler> localizer,
     ILogger<IUserSubscriptionService> logger)
     : IUserSubscriptionService
 {
@@ -27,27 +25,13 @@ public class UserSubscriptionService(
 
     public string GetUserSubscriptionInformation(UserSubscription userSubscription)
     {
-        // todo: add to localization
-        var subscription = userSubscription.Subscription;
-        var priceText = subscription.DiscountPercent == 0
-            ? localizer["SubscriptionPrice", subscription.Price]
-            : localizer["SubscriptionPriceWithDiscount", subscription.GetPriceWithDiscount()];
-        var subscriptionInformation =
-            localizer["SubscriptionName", subscription.Name] +
-            priceText +
-            localizer["SubscriptionDescription", subscription.Description ?? string.Empty] +
-            localizer["SubscriptionType", subscription.Type] +
-            localizer["SubscriptionTotalClasses", subscription.ClassesCount] +
-            localizer["SubscriptionRemainingClasses", userSubscription.RemainingClasses] +
-            localizer["BackToSubscriptions"];
-
-        return subscriptionInformation;
+        return "Subscription information.";
     }
 
     public async Task<Result<IReadOnlyCollection<UserSubscription>>> GetUserSubscriptions(string username)
     {
         var response = await context.UserSubscriptions
-            .Where(x => x.BotUser.NickName == username)
+            .Where(x => x.User.NickName == username)
             .ToListAsync();
         return response;
     }
@@ -57,9 +41,9 @@ public class UserSubscriptionService(
     {
         var response = await context.UserSubscriptions
             .Include(x => x.Subscription)
-            .Include(x => x.BotUser)
+            .Include(x => x.User)
             .Where(x =>
-                x.BotUser.NickName == username
+                x.User.NickName == username
                 && x.Subscription.Type == subscriptionType)
             .ToListAsync();
         return response;
@@ -69,12 +53,11 @@ public class UserSubscriptionService(
     {
         var userSubscriptions = await context.UserSubscriptions
             .Include(x => x.Subscription)
-            .Where(x => x.BotUser.NickName.Equals(username))
+            .Where(x => x.User.NickName != null && x.User.NickName.Equals(username))
             .ToListAsync(cancel);
 
         if (!userSubscriptions.Any())
         {
-            // todo: localize
             await botService.SendTextMessageWithReplyAsync(
                 "You have no subscriptions\\. \n Press /subscriptions to buy one\\.",
                 new ReplyKeyboardRemove(),
@@ -93,14 +76,12 @@ public class UserSubscriptionService(
 
         async Task SendSubscriptionTitle()
         {
-            // todo: localize
             var replyMessage = userSubscriptions.Count == 1 ? "*Your subscription:*" : "*Your subscriptions:*";
             await botService.SendTextMessageWithReplyAsync(replyMessage, new ReplyKeyboardRemove(), cancel);
         }
 
         async Task SendSubscriptionDetails(UserSubscription userSubscription)
         {
-            // todo: localize
             var replyText =
                 "*Subscription:\n*" +
                 $"Name: {userSubscription.Subscription.Name}\n" +
@@ -117,21 +98,24 @@ public class UserSubscriptionService(
         {
             if (!userSubscriptions.Any()) return;
 
-            // todo: localize
             await botService.SendTextMessageAsync(
                 "*Press checkin button on the subscription where you want the class to be taken from*",
                 cancel);
         }
     }
 
-    public Result<bool> CanCheckinOnClass(UserSubscription userSubscription) =>
-        userSubscription.CanCheckInOnClass
-            ? Result.Failure<bool>().WithMessage("No available classes.")
-            : Result.Success(true);
-
     public async Task<Result> CheckinOnClass(UserSubscription userSubscription)
     {
-        userSubscription.CheckInOnClass();
+        var checkinSuccess = userSubscription.CheckInOnClass();
+
+        if (!checkinSuccess)
+        {
+            logger.LogError(
+                "Remaining classes: {RemainingClassesCount} where not updated for subscription: {SubscriptionId}",
+                userSubscription.RemainingClasses, userSubscription.Id);
+            Result.Failure().WithMessage("Remaining classes where not updated. Checkin failed.");
+        }
+
         var affectedRows = await context.UserSubscriptions
             .Where(x => x.Id == userSubscription.Id)
             .ExecuteUpdateAsync(updates => updates.SetProperty(p =>
@@ -142,7 +126,7 @@ public class UserSubscriptionService(
             logger.LogError(
                 "Remaining classes: {RemainingClassesCount} where not updated for subscription: {SubscriptionId}",
                 userSubscription.RemainingClasses, userSubscription.Id);
-            Result.Failure().WithMessage("Remaining classes where not updated");
+            Result.Failure().WithMessage("Remaining classes where not updated. Checkin failed.");
         }
 
         return Result.Success();

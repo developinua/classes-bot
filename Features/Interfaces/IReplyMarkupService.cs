@@ -1,4 +1,4 @@
-using Core.Aggregates.User;
+using Core.Entities.Aggregates.User;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Features.Interfaces;

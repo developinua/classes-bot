@@ -1,7 +1,6 @@
 ﻿using Features.Interfaces;
 using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Localization;
 using ResultNet;
 using Telegram.Bot.Types;
 
@@ -12,7 +11,6 @@ public class SubscriptionsInformationCallbackHandler(
         IReplyMarkupService replyMarkupService,
         ICallbackExtractorService callbackExtractorService,
         IUserSubscriptionService userSubscriptionService,
-        IStringLocalizer<SubscriptionsHandler> localizer,
         IValidator<CallbackQuery> validator)
     : IRequestHandler<SubscriptionsInformationCallbackRequest, Result>
 {
@@ -33,13 +31,13 @@ public class SubscriptionsInformationCallbackHandler(
 
         if (userSubscriptions.IsFailure() || userSubscriptions.Data.Count == 0)
         {
-            await botService.SendTextMessageAsync(localizer.GetString("NoSubscriptions"), cancel);
+            await botService.SendTextMessageAsync("NoSubscriptions", cancel);
             return Result.Success();
         }
 
         // todo: add delete previous saved detailed information message (if such exists)
         await botService.SendTextMessageWithReplyAsync(
-            localizer.GetString("YourSubscriptions"),
+            "YourSubscriptions",
             replyMarkupService.GetSubscriptionsInformation(userSubscriptions.Data),
             cancel);
         // todo: add save message when press any of choice button to delete it next

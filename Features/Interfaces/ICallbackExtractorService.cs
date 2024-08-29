@@ -1,4 +1,4 @@
-using Core.Aggregates.Subscription;
+using Core.Entities.Aggregates.Subscription;
 
 namespace Features.Interfaces;
 

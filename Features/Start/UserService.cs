@@ -1,10 +1,10 @@
-using Core.Aggregates.User;
-using Core.Entities;
+using Core.Entities.Aggregates.User;
 using Features.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using Telegram.Bot.Types;
+using User = Core.Entities.Aggregates.User.User;
 
 namespace Features.Start;
 
@@ -14,7 +14,8 @@ public class UserService(
     ILogger<IUserService> logger)
     : IUserService
 {
-    public async Task<Result> SaveUser(string username, Message message, Culture culture, CancellationToken cancel)
+    // todo: change to check chatId or username or phone
+    public async Task<Result> SaveUser(string username, Message message, CancellationToken cancel)
     {
         var user = await GetByUsername(username);
         // todo: use mapster
@@ -22,10 +23,7 @@ public class UserService(
         {
             ChatId = message.From!.Id,
             FirstName = message.From.FirstName,
-            LastName = message.From.LastName,
-            IsPremium = message.From.IsPremium.GetValueOrDefault(),
-            IsBot = message.From.IsBot,
-            Culture = culture
+            LastName = message.From.LastName
         };
 
         if (user.Data is null)
@@ -40,19 +38,19 @@ public class UserService(
         return Result.Success();
     }
 
-    public async Task<Result<BotUser?>> GetByUsername(string? username)
+    public async Task<Result<User?>> GetByUsername(string? username)
     {
         if (string.IsNullOrEmpty(username))
-            return Result.Failure<BotUser?>().WithMessage("Username must be filled in");
+            return Result.Failure<User?>().WithMessage("Username must be filled in");
 
         var response = await context.Users
             .AsNoTracking()
-            .Include(x => x.UserProfile.Culture)
             .FirstOrDefaultAsync(x => x.NickName == username);
 
         return response;
     }
 
+    // todo: change to check chatId or username or phone
     public async Task<bool> UserAlreadyRegistered(string username) =>
         await context.Users.AnyAsync(x => x.NickName == username);
 
@@ -64,7 +62,7 @@ public class UserService(
             var profile = context.UserProfiles.Add(userProfile);
             await context.SaveChangesAsync(cancel);
 
-            context.Users.Add(new BotUser
+            context.Users.Add(new User
             {
                 NickName = username,
                 UserProfile = profile.Entity
@@ -75,7 +73,7 @@ public class UserService(
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancel);
-            logger.LogCritical(ex, "Failed to create botUser: {Username}.", username);
+            logger.LogCritical(ex, "Failed to create user: {Username}.", username);
         }
     }
 }

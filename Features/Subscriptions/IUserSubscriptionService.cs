@@ -1,5 +1,5 @@
-using Core.Aggregates.Subscription;
-using Core.Aggregates.User;
+using Core.Entities.Aggregates.Subscription;
+using Core.Entities.Aggregates.User;
 using ResultNet;
 
 namespace Features.Subscriptions;
@@ -13,6 +13,5 @@ public interface IUserSubscriptionService
         string username, SubscriptionType subscriptionType);
 
     Task ShowUserSubscriptionsInformation(string username, CancellationToken cancel);
-    Result<bool> CanCheckinOnClass(UserSubscription userSubscription);
     Task<Result> CheckinOnClass(UserSubscription userSubscription);
 }

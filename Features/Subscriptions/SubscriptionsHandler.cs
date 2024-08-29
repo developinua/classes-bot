@@ -1,6 +1,5 @@
 ﻿using Features.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Localization;
 using ResultNet;
 
 namespace Features.Subscriptions;
@@ -8,8 +7,7 @@ namespace Features.Subscriptions;
 public class SubscriptionsHandler(
         IBotService botService,
         IReplyMarkupService replyMarkupService,
-        IUserSubscriptionService userSubscriptionService,
-        IStringLocalizer<SubscriptionsHandler> localizer)
+        IUserSubscriptionService userSubscriptionService)
     : IRequestHandler<SubscriptionsRequest, Result>
 {
     public async Task<Result> Handle(SubscriptionsRequest request, CancellationToken cancel)
@@ -21,12 +19,12 @@ public class SubscriptionsHandler(
 
         if (userSubscriptions.Data.Count == 0)
         {
-            await botService.SendTextMessageAsync(localizer.GetString("NoSubscriptions"), cancel);
+            await botService.SendTextMessageAsync("NoSubscriptions", cancel);
             return Result.Success();
         }
 
         await botService.SendTextMessageWithReplyAsync(
-            localizer.GetString("ChooseSubscriptionType"),
+            "ChooseSubscriptionType",
             replyMarkupService.GetSubscriptions(),
             cancel);
 

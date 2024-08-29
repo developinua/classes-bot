@@ -1,4 +1,4 @@
-using Infrastructure.Data.Context;
+using Infrastructure.Db.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,9 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddExceptionHandlers()
     .AddAppServices()
+    .AddInfrastructure(builder.Configuration)
     .AddMiddlewares()
-    .AddDatabase(builder.Configuration)
-    .AddCustomLocalizations()
     .AddMediator()
     .AddAutoMapper()
     .AddBotRequests()

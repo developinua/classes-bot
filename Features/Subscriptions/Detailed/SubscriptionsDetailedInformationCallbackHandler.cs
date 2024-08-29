@@ -1,7 +1,6 @@
 ﻿using Features.Interfaces;
 using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Localization;
 using ResultNet;
 using Telegram.Bot.Types;
 
@@ -12,7 +11,6 @@ public class SubscriptionsDetailedInformationCallbackHandler(
         IUserSubscriptionService userSubscriptionService,
         IReplyMarkupService replyMarkupService,
         ICallbackExtractorService callbackExtractorService,
-        IStringLocalizer<SubscriptionsHandler> localizer,
         IValidator<CallbackQuery> validator)
     : IRequestHandler<SubscriptionsDetailedInformationCallbackRequest, Result>
 {
@@ -32,7 +30,7 @@ public class SubscriptionsDetailedInformationCallbackHandler(
 
         if (userSubscription.IsFailure() || userSubscription.Data is null)
         {
-            await botService.SendTextMessageAsync(localizer.GetString("NoSubscriptions"), cancel);
+            await botService.SendTextMessageAsync("NoSubscriptions", cancel);
             return Result.Success();
         }
 

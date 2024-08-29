@@ -4,8 +4,6 @@ using Application.Mapper.Converter;
 using AutoMapper;
 using Features.Administration;
 using Features.Checkin;
-using Features.Language;
-using Features.Start;
 using Features.Subscriptions;
 using Features.Subscriptions.Detailed;
 using Features.Subscriptions.Information;
@@ -19,20 +17,6 @@ public class UpdateProfile : Profile
 {
     public UpdateProfile()
     {
-        CreateMap<StartRequest, LanguageRequest>();
-        
-        CreateMap<Message, StartRequest>()
-            .ForMember(dest => dest.ChatId, opt => opt.MapFrom(GetMessageChatId()))
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(GetMessageUsername()))
-            .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src));
-        
-        CreateMap<Message, LanguageRequest>()
-            .ForMember(dest => dest.ChatId, opt => opt.MapFrom(GetMessageChatId()))
-            .ForMember(dest => dest.Username, opt => opt.MapFrom(GetMessageUsername()));
-        CreateMap<CallbackQuery, LanguageCallbackRequest>()
-            .ForMember(dest => dest.ChatId, opt => opt.MapFrom(GetCallbackChatId()))
-            .ForMember(dest => dest.CallbackQuery, opt => opt.MapFrom(src => src));
-        
         CreateMap<Message, SubscriptionsRequest>()
             .ForMember(dest => dest.ChatId, opt => opt.MapFrom(GetMessageChatId()))
             .ForMember(dest => dest.Username, opt => opt.MapFrom(GetMessageUsername()));
@@ -62,14 +46,12 @@ public class UpdateProfile : Profile
 
         CreateMap<Message, IRequest<Result>?>().ConvertUsing<MessageRequestValueConverter>();
         CreateMap<CallbackQuery, IRequest<Result>?>().ConvertUsing<CallbackRequestValueConverter>();
-        
-        return;
-        
-        Expression<Func<Message, long?>> GetMessageChatId() => src => src.Chat.Id;
-        Expression<Func<CallbackQuery, long?>> GetCallbackChatId() => src => src.From.Id;
-        Expression<Func<Message, string?>> GetMessageUsername() => src =>
-            src.From == null ? string.Empty : src.From.Username;
-        //todo: check GetCallbackUsername src.From is null
-        Expression<Func<CallbackQuery, string?>> GetCallbackUsername() => src => src.From.Username;
     }
+
+    private Expression<Func<Message, long?>> GetMessageChatId() => src => src.Chat.Id;
+    private Expression<Func<CallbackQuery, long?>> GetCallbackChatId() => src => src.From.Id;
+    private Expression<Func<Message, string?>> GetMessageUsername() => src =>
+        src.From == null ? string.Empty : src.From.Username;
+    //todo: check GetCallbackUsername src.From is null
+    private Expression<Func<CallbackQuery, string?>> GetCallbackUsername() => src => src.From.Username;
 }

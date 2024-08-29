@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
 using Features.Interfaces;
-using Features.Start;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Middleware;
@@ -10,7 +8,6 @@ namespace Application.Middleware;
 public class UsernameMustBeFilledInMiddleware(
         IUpdateService updateService,
         IBotService botService,
-        IStringLocalizer<StartHandler> localizer,
         ILogger<UsernameMustBeFilledInMiddleware> logger)
     : IMiddleware
 {
@@ -35,7 +32,7 @@ public class UsernameMustBeFilledInMiddleware(
         var chatId = updateService.GetChatId(update);
 
         botService.UseChat(chatId);
-        await botService.SendTextMessageAsync(localizer.GetString("UsernameIsNotFilledIn"), default);
+        await botService.SendTextMessageAsync("UsernameIsNotFilledIn", context.RequestAborted);
         logger.LogWarning("Username is not filled in for chat {ChatId}", chatId);
 
         context.Response.StatusCode = 200;

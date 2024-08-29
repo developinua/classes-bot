@@ -1,20 +1,12 @@
-﻿using AutoMapper;
-using Features.Interfaces;
-using Features.Language;
+﻿using Features.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Localization;
 using ResultNet;
 
 namespace Features.Start;
 
 public class StartHandler(
         IBotService botService,
-        IUserService userService,
-        IUpdateService updateService,
-        ICultureService cultureService,
-        IStringLocalizer<StartHandler> localizer,
-        IMediator mediator,
-        IMapper mapper)
+        IUserService userService)
     : IRequestHandler<StartRequest, Result>
 {
     public async Task<Result> Handle(StartRequest request, CancellationToken cancel)
@@ -24,17 +16,17 @@ public class StartHandler(
 
         if (await userService.UserAlreadyRegistered(request.Username))
         {
-            await botService.SendTextMessageAsync(localizer.GetString("BotAlreadyStarted"), cancel);
+            await botService.SendTextMessageAsync("Бот уже стартував :)", cancel);
             return Result.Success();
         }
 
-        var botUserCultureName = updateService.GetUserCultureName(request.Message);
-        var culture = await cultureService.GetByName(botUserCultureName);
-        var result = await userService.SaveUser(request.Username, request.Message, culture, cancel);
+        var result = await userService.SaveUser(request.Username, request.Message, cancel);
         
         if (result.IsFailure()) return result;
 
-        await mediator.Send(mapper.Map<LanguageRequest>(request), cancel);
+        await botService.SendTextMessageAsync(
+            "Натисни /subscriptions щоб переглянути чи купити собі абонемент",
+            cancel);
         return Result.Success();
     }
 }

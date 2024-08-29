@@ -7,7 +7,7 @@ namespace Features.Subscriptions.Detailed;
 
 public class SubscriptionsDetailedInformationCallbackRequest : BotCallbackRequest, IRequest<Result>
 {
-    public override string CallbackPattern => @"(?i)(?<query>botUser-subscription-id):(?<data>\d+)";
+    public override string CallbackPattern => @"(?i)(?<query>user-subscription-id):(?<data>\d+)";
     public long ChatId { get; set; }
     public string Username { get; set; } = null!;
     public CallbackQuery CallbackQuery { get; set; } = null!;

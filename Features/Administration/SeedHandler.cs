@@ -1,5 +1,5 @@
-﻿using Core.Aggregates.Subscription;
-using Core.Aggregates.User;
+﻿using Core.Entities.Aggregates.Subscription;
+using Core.Entities.Aggregates.User;
 using Features.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +55,7 @@ public class SeedHandler(
                 Name = "Whoops",
                 Description = "Nothing to do here",
                 Price = 0,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 0,
                 Type = SubscriptionType.None,
                 IsActive = true
@@ -70,7 +70,7 @@ public class SeedHandler(
                 Name = "One class",
                 Description = "One class",
                 Price = 200,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 1,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -80,7 +80,7 @@ public class SeedHandler(
                 Name = "Week Classes",
                 Description = "Two classes",
                 Price = 400,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 2,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -90,7 +90,7 @@ public class SeedHandler(
                 Name = "Two Week Classes",
                 Description = "Four classes",
                 Price = 800,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 4,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -100,7 +100,7 @@ public class SeedHandler(
                 Name = "One Month Classes",
                 Description = "Eight classes",
                 Price = 1600,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 8,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -110,7 +110,7 @@ public class SeedHandler(
                 Name = "Three Months Classes",
                 Description = "Sixteen classes",
                 Price = 3200,
-                DiscountPercent = 15,
+                // DiscountPercent = 15,
                 ClassesCount = 16,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -125,7 +125,7 @@ public class SeedHandler(
                 Name = "One class",
                 Description = "One class",
                 Price = 200,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 1,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -135,7 +135,7 @@ public class SeedHandler(
                 Name = "Week Classes",
                 Description = "Two classes",
                 Price = 400,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 2,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -145,7 +145,7 @@ public class SeedHandler(
                 Name = "Two Week Classes",
                 Description = "Four classes",
                 Price = 800,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 4,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -155,7 +155,7 @@ public class SeedHandler(
                 Name = "One Month Classes",
                 Description = "Eight classes",
                 Price = 1600,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 8,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -165,7 +165,7 @@ public class SeedHandler(
                 Name = "Three Months Classes",
                 Description = "Sixteen classes",
                 Price = 3200,
-                DiscountPercent = 15,
+                // DiscountPercent = 15,
                 ClassesCount = 16,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -180,7 +180,7 @@ public class SeedHandler(
                 Name = "One class",
                 Description = "One class",
                 Price = 200,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 1,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -190,7 +190,7 @@ public class SeedHandler(
                 Name = "Week Classes",
                 Description = "Two classes",
                 Price = 400,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 2,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -200,7 +200,7 @@ public class SeedHandler(
                 Name = "Two Week Classes",
                 Description = "Four classes",
                 Price = 800,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 4,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -210,7 +210,7 @@ public class SeedHandler(
                 Name = "One Month Classes",
                 Description = "Eight classes",
                 Price = 1600,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 8,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -220,7 +220,7 @@ public class SeedHandler(
                 Name = "Three Months Classes",
                 Description = "Sixteen classes",
                 Price = 3200,
-                DiscountPercent = 15,
+                // DiscountPercent = 15,
                 ClassesCount = 16,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -235,7 +235,7 @@ public class SeedHandler(
                 Name = "One class",
                 Description = "One class",
                 Price = 200,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 1,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -245,7 +245,7 @@ public class SeedHandler(
                 Name = "Week Classes",
                 Description = "Two classes",
                 Price = 400,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 2,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -255,7 +255,7 @@ public class SeedHandler(
                 Name = "Two Week Classes",
                 Description = "Four classes",
                 Price = 800,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 4,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -265,7 +265,7 @@ public class SeedHandler(
                 Name = "One Month Classes",
                 Description = "Eight classes",
                 Price = 1600,
-                DiscountPercent = 0,
+                // DiscountPercent = 0,
                 ClassesCount = 8,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -275,7 +275,7 @@ public class SeedHandler(
                 Name = "Three Months Classes",
                 Description = "Sixteen classes",
                 Price = 3200,
-                DiscountPercent = 15,
+                // DiscountPercent = 15,
                 ClassesCount = 16,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -290,7 +290,7 @@ public class SeedHandler(
                 Name = "All classes",
                 Description = "Novice, medium, lady style classes for week",
                 Price = 1200,
-                DiscountPercent = 5,
+                // DiscountPercent = 5,
                 ClassesCount = 12,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -300,7 +300,7 @@ public class SeedHandler(
                 Name = "All classes",
                 Description = "Novice, medium, lady style classes for two weeks",
                 Price = 2400,
-                DiscountPercent = 5,
+                // DiscountPercent = 5,
                 ClassesCount = 24,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -310,7 +310,7 @@ public class SeedHandler(
                 Name = "All classes",
                 Description = "Novice, medium, lady style classes for month",
                 Price = 4800,
-                DiscountPercent = 10,
+                // DiscountPercent = 10,
                 ClassesCount = 48,
                 Type = SubscriptionType.Class,
                 IsActive = true
@@ -320,7 +320,7 @@ public class SeedHandler(
                 Name = "All classes",
                 Description = "Novice, medium, lady style classes for three months",
                 Price = 9600,
-                DiscountPercent = 15,
+                // DiscountPercent = 15,
                 ClassesCount = 144,
                 Type = SubscriptionType.Course,
                 IsActive = true
@@ -334,7 +334,6 @@ public class SeedHandler(
         
         var userNazar = await context.Users
             .AsNoTracking()
-            .Include(x => x.UserProfile.Culture)
             .FirstOrDefaultAsync(x => x.NickName == "nazikBro", cancel);
         
         if (userNazar is null)
@@ -342,7 +341,7 @@ public class SeedHandler(
         
         var userSubscriptions = subscriptions.Select(x => new UserSubscription
         {
-            BotUser = userNazar,
+            User = userNazar,
             Subscription = x,
             RemainingClasses = x.ClassesCount
         });

@@ -1,4 +1,4 @@
-using Core.Aggregates.User;
+using Core.Entities.Aggregates.User;
 
 namespace Features.Start;
 

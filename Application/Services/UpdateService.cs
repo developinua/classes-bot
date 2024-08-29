@@ -30,8 +30,6 @@ public class UpdateService(
     public string? GetUsername(CallbackQuery? callbackQuery) =>
         callbackQuery?.From.Username ?? callbackQuery?.From.Id.ToString();
 
-    public string? GetUserCultureName(Message? message) => message?.From?.LanguageCode;
-
     public IRequest<Result>? GetResultRequest(Update update)
     {
         var request = update switch

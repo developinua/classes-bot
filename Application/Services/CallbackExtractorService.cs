@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
-using Core.Aggregates.Subscription;
 using Core.Entities;
+using Core.Entities.Aggregates.Subscription;
 using Features.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -31,7 +31,7 @@ public class CallbackExtractorService(ILogger<CallbackExtractorService> logger) 
         var userSubscriptionIdGroupMatchData = userSubscriptionIdGroupMatch.Groups["data"].Value;
 
         if (userSubscriptionIdGroupMatch.Success
-            && userSubscriptionIdGroupMatchQuery.Equals("botUser-subscription-id"))
+            && userSubscriptionIdGroupMatchQuery.Equals("user-subscription-id"))
             userSubscriptionIdGroup = userSubscriptionIdGroupMatchData;
 
         return long.Parse(userSubscriptionIdGroup);
