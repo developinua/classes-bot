@@ -1,4 +1,5 @@
 ﻿using Features.Interfaces;
+using Features.Subscriptions.Services;
 using MediatR;
 using ResultNet;
 
@@ -12,19 +13,19 @@ public class SubscriptionsHandler(
 {
     public async Task<Result> Handle(SubscriptionsRequest request, CancellationToken cancel)
     {
-        botService.UseChat(request.ChatId);
-        await botService.SendChatActionAsync(cancel);
+        await botService.UseChat(request.ChatId, cancel);
 
-        var userSubscriptions = await userSubscriptionService.GetUserSubscriptions(request.Username);
+        var userSubscriptions = await userSubscriptionService.GetByUsername(request.Username);
 
         if (userSubscriptions.Data.Count == 0)
         {
-            await botService.SendTextMessageAsync("NoSubscriptions", cancel);
+            await botService.SendTextMessageAsync("Немає активних підписок", cancel);
+            await botService.SendTextMessageAsync("Тому це прекрасний шанс, щоб /купити новеньку", cancel);
             return Result.Success();
         }
 
         await botService.SendTextMessageWithReplyAsync(
-            "ChooseSubscriptionType",
+            "Вибери тип підписки",
             replyMarkupService.GetSubscriptions(),
             cancel);
 

@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
+using Core.Aggregates.Subscription;
 using Core.Entities;
-using Core.Entities.Aggregates.Subscription;
 using Features.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -9,7 +9,7 @@ namespace Application.Services;
 
 public class CallbackExtractorService(ILogger<CallbackExtractorService> logger) : ICallbackExtractorService
 {
-    public string GetCultureNameFrom(string? callbackData, string callbackPattern)
+    public string ExtractCultureNameFrom(string? callbackData, string callbackPattern)
     {
         var cultureName = string.Empty;
         var cultureMatch = Regex.Match(callbackData ?? "", callbackPattern);
@@ -23,7 +23,7 @@ public class CallbackExtractorService(ILogger<CallbackExtractorService> logger) 
         return new Culture().Name;
     }
     
-    public long GetUserSubscriptionId(string callbackData, string callbackPattern)
+    public long ExtractUserSubscriptionId(string callbackData, string callbackPattern)
     {
         var userSubscriptionIdGroup = string.Empty;
         var userSubscriptionIdGroupMatch = Regex.Match(callbackData, callbackPattern);
@@ -37,7 +37,7 @@ public class CallbackExtractorService(ILogger<CallbackExtractorService> logger) 
         return long.Parse(userSubscriptionIdGroup);
     }
     
-    public SubscriptionType GetSubscriptionType(string callbackData, string callbackPattern)
+    public SubscriptionType ExtractSubscriptionType(string callbackData, string callbackPattern)
     {
         var subscriptionTypeString = string.Empty;
         var subscriptionTypeMatch = Regex.Match(callbackData, callbackPattern);

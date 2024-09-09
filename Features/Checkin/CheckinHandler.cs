@@ -1,5 +1,6 @@
 ﻿using Features.Interfaces;
 using Features.Subscriptions;
+using Features.Subscriptions.Services;
 using MediatR;
 using ResultNet;
 
@@ -12,9 +13,8 @@ public class CheckinHandler(
 {
     public async Task<Result> Handle(CheckinRequest request, CancellationToken cancel)
     {
-        botService.UseChat(request.ChatId);
-        await botService.SendChatActionAsync(cancel);
-        await userSubscriptionService.ShowUserSubscriptionsInformation(request.Username, cancel);
+        await botService.UseChat(request.ChatId, cancel);
+        await userSubscriptionService.ShowInformation(request.Username, cancel);
         
         return Result.Success();
     }

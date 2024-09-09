@@ -9,5 +9,5 @@ public class CheckinCallbackRequest : BotCallbackRequest, IRequest<Result>
 {
     public override string CallbackPattern => @"(?i)(?<query>check-in-user-subscription-id):(?<data>\d+)";
     public long ChatId { get; set; }
-    public CallbackQuery CallbackQuery { get; set; } = null!;
+    public required CallbackQuery CallbackQuery { get; set; }
 }

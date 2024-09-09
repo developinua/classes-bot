@@ -1,8 +1,7 @@
 ﻿using Features.Interfaces;
-using FluentValidation;
+using Features.Subscriptions.Services;
 using MediatR;
 using ResultNet;
-using Telegram.Bot.Types;
 
 namespace Features.Subscriptions.Detailed;
 
@@ -10,36 +9,34 @@ public class SubscriptionsDetailedInformationCallbackHandler(
         IBotService botService,
         IUserSubscriptionService userSubscriptionService,
         IReplyMarkupService replyMarkupService,
-        ICallbackExtractorService callbackExtractorService,
-        IValidator<CallbackQuery> validator)
+        ICallbackExtractorService callbackExtractorService)
     : IRequestHandler<SubscriptionsDetailedInformationCallbackRequest, Result>
 {
     public async Task<Result> Handle(
         SubscriptionsDetailedInformationCallbackRequest request,
         CancellationToken cancel)
     {
-        if ((await validator.ValidateAsync(request.CallbackQuery, cancel)).IsValid)
-            Result.Failure().WithMessage("No valid callback query.");
-
-        botService.UseChat(request.ChatId);
-        await botService.SendChatActionAsync(cancel);
+        await botService.UseChat(request.ChatId, cancel);
         
-        var userSubscriptionId = callbackExtractorService.GetUserSubscriptionId(
+        var userSubscriptionId = callbackExtractorService.ExtractUserSubscriptionId(
             request.CallbackQuery.Data!, request.CallbackPattern);
         var userSubscription = await userSubscriptionService.GetById(userSubscriptionId);
 
         if (userSubscription.IsFailure() || userSubscription.Data is null)
         {
-            await botService.SendTextMessageAsync("NoSubscriptions", cancel);
+            await botService.SendTextMessageAsync(
+                "Друже, щось пішло не за планом. " +
+                "Я не зміг отримати інформацію про підписку", cancel);
+            await botService.SendTextMessageAsync(
+                "Якщо проблема повториться, " +
+                "напиши @nazikBro і ми усе владнаєм ^^", cancel);
             return Result.Success();
         }
 
-        // todo: add delete previous saved information message
         await botService.SendTextMessageWithReplyAsync(
-            userSubscriptionService.GetUserSubscriptionInformation(userSubscription.Data),
+            userSubscriptionService.ShowDetailedInformation(userSubscription.Data),
             replyMarkupService.GetBackToSubscriptions(userSubscription.Data),
             cancel);
-        // todo: add save message when press any of choice button to delete it next
         
         return Result.Success();
     }

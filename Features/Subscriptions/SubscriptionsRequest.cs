@@ -1,4 +1,5 @@
 using Core.BotRequests;
+using Core.ValueObjects;
 using MediatR;
 using ResultNet;
 
@@ -6,7 +7,7 @@ namespace Features.Subscriptions;
 
 public class SubscriptionsRequest : BotMessageRequest, IRequest<Result>
 {
-    protected override string Name => "/subscriptions";
-    public long ChatId { get; set; }
-    public string Username { get; set; } = null!;
+    protected override string Name => "/підписки";
+    public required long ChatId { get; set; }
+    public required Username Username { get; set; }
 }

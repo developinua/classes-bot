@@ -1,4 +1,4 @@
-﻿using Core.Entities.Aggregates.User;
+﻿using Core.Aggregates.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

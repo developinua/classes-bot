@@ -7,6 +7,7 @@ namespace Features.Interfaces;
 public interface IBotService
 {
     void UseChat(long chatId);
+    Task UseChat(long chatId, CancellationToken cancel);
     Task<Message> SendTextMessageAsync(
         string text,
         CancellationToken cancel,

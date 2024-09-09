@@ -1,4 +1,5 @@
 using Core.BotRequests;
+using Core.ValueObjects;
 using MediatR;
 using ResultNet;
 using Telegram.Bot.Types;
@@ -9,6 +10,6 @@ public class SubscriptionsInformationCallbackRequest : BotCallbackRequest, IRequ
 {
     public override string CallbackPattern => "(?i)(?<query>subscription):(?<data>class|course)";
     public long ChatId { get; set; }
-    public string Username { get; set; } = null!;
-    public CallbackQuery CallbackQuery { get; set; } = null!;
+    public required Username Username { get; set; }
+    public required CallbackQuery CallbackQuery { get; set; }
 }

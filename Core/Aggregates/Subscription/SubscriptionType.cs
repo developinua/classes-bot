@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Aggregates.Subscription;
+﻿namespace Core.Aggregates.Subscription;
 
 public enum SubscriptionType
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Core.Entities.Aggregates.Subscription;
-using Core.Entities.Aggregates.User;
+using Core.Aggregates.Subscription;
+using Core.Aggregates.User;
 using Core.Keyboard;
 using Features.Interfaces;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -9,19 +9,11 @@ namespace Application.Services;
 
 public class ReplyMarkupService : IReplyMarkupService
 {
-    public IReplyMarkup GetStartMarkup()
-    {
-        var replyKeyboardMarkup = InlineKeyboardBuilder.Create()
-            .AddButton("English", "language:en-US")
-            .AddButton("Українська", "language:uk-UA");
-        return replyKeyboardMarkup.Build();
-    }
-
     public IReplyMarkup GetSubscriptions()
     {
         var replyKeyboardMarkup = InlineKeyboardBuilder.Create()
-            .AddButton("SubscriptionClasses", "subscription:class").NewLine()
-            .AddButton("SubscriptionCourses", "subscription:course");
+            .AddButton("Класи", "subscription:class").NewLine()
+            .AddButton("Курси", "subscription:course");
         return replyKeyboardMarkup.Build();
     }
 
@@ -29,7 +21,7 @@ public class ReplyMarkupService : IReplyMarkupService
     {
         var type = userSubscription.Subscription.Type == SubscriptionType.Class ? "class" : "course";
         var replyKeyboardMarkup = InlineKeyboardBuilder.Create()
-            .AddButton("BackToSubscriptions", $"subscription:{type}");
+            .AddButton("Назад", $"subscription:{type}");
 
         return replyKeyboardMarkup.Build();
     }
@@ -40,7 +32,8 @@ public class ReplyMarkupService : IReplyMarkupService
 
         foreach (var userSubscription in userSubscriptions)
         {
-            var name = $"Name: {userSubscription.Subscription.Name} (Remaining: {userSubscription.RemainingClasses})";
+            var name = $"Підписка: {userSubscription.Subscription.Name} " +
+                       $"(Залишилось: {userSubscription.RemainingClasses})";
             replyKeyboardMarkup.AddButton(name, $"user-subscription-id:{userSubscription.Id}").NewLine();
         }
 
@@ -51,7 +44,7 @@ public class ReplyMarkupService : IReplyMarkupService
     {
         // todo: replacement link
         return InlineKeyboardBuilder.Create()
-            .AddUrlButton("Buy", $"paymentlink:{subscriptionId}", "")
+            .AddUrlButton("Купити", $"paymentlink:{subscriptionId}", "https://google.com")
             .Build();
     }
 }

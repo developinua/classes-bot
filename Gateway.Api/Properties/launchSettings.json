@@ -1,0 +1,15 @@
+{
+	"profiles": {
+		"Classes": {
+			"commandName": "Project",
+			"launchUrl": "api/v1/message",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"ASPNETCORE_URLS": "https://+:4001;http://+:4000",
+				"ASPNETCORE_Kestrel__Certificates__Default__Path": "Certificates/zouk.in.ua.pem",
+				"ASPNETCORE_Kestrel__Certificates__Default__KeyPath": "Certificates/zouk.in.ua.key"
+			},
+			"applicationUrl": "https://localhost:4001;http://localhost:4000"
+		}
+	}
+}

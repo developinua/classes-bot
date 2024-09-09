@@ -1,5 +1,5 @@
-using Core.Entities.Aggregates.Subscription;
-using Core.Entities.Aggregates.User;
+using Core.Aggregates.Subscription;
+using Core.Aggregates.User;
 using Core.Keyboard;
 using Features.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using ResultNet;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace Features.Subscriptions;
+namespace Features.Subscriptions.Services;
 
 public class UserSubscriptionService(
     IBotService botService,
@@ -23,12 +23,7 @@ public class UserSubscriptionService(
         return response;
     }
 
-    public string GetUserSubscriptionInformation(UserSubscription userSubscription)
-    {
-        return "Subscription information.";
-    }
-
-    public async Task<Result<IReadOnlyCollection<UserSubscription>>> GetUserSubscriptions(string username)
+    public async Task<Result<IReadOnlyCollection<UserSubscription>>> GetByUsername(string username)
     {
         var response = await context.UserSubscriptions
             .Where(x => x.User.NickName == username)
@@ -36,7 +31,7 @@ public class UserSubscriptionService(
         return response;
     }
 
-    public async Task<Result<IReadOnlyCollection<UserSubscription>>> GetUserSubscriptionsByType(
+    public async Task<Result<IReadOnlyCollection<UserSubscription>>> GetByUsernameAndType(
         string username, SubscriptionType subscriptionType)
     {
         var response = await context.UserSubscriptions
@@ -49,7 +44,7 @@ public class UserSubscriptionService(
         return response;
     }
 
-    public async Task ShowUserSubscriptionsInformation(string username, CancellationToken cancel)
+    public async Task ShowInformation(string username, CancellationToken cancel)
     {
         var userSubscriptions = await context.UserSubscriptions
             .Include(x => x.Subscription)
@@ -59,7 +54,7 @@ public class UserSubscriptionService(
         if (!userSubscriptions.Any())
         {
             await botService.SendTextMessageWithReplyAsync(
-                "You have no subscriptions\\. \n Press /subscriptions to buy one\\.",
+                "You have no subscriptions\\. \n Press /підписки to buy one\\.",
                 new ReplyKeyboardRemove(),
                 cancel);
             return;
@@ -102,6 +97,17 @@ public class UserSubscriptionService(
                 "*Press checkin button on the subscription where you want the class to be taken from*",
                 cancel);
         }
+    }
+
+    public string ShowDetailedInformation(UserSubscription userSubscription)
+    {
+        var replyText =
+            "*Твоя підписка:\n*" +
+            $"Назва: {userSubscription.Subscription.Name}\n" +
+            $"Тип: {userSubscription.Subscription.Type}\n" +
+            $"Опис: {userSubscription.Subscription.Description}\n" +
+            $"Залишилось: {userSubscription.RemainingClasses}\n";
+        return replyText;
     }
 
     public async Task<Result> CheckinOnClass(UserSubscription userSubscription)

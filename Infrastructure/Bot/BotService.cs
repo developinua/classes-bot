@@ -14,6 +14,11 @@ public class BotService(ITelegramBotClient botClient) : IBotService
     private long ChatId { get; set; }
 
     public void UseChat(long chatId) => ChatId = chatId;
+    public async Task UseChat(long chatId, CancellationToken cancel)
+    {
+        ChatId = chatId;
+        await botClient.SendChatActionAsync(ChatId, chatAction: ChatAction.Typing, cancellationToken: cancel);
+    }
 
     public async Task<Message> SendTextMessageAsync(
         string text,

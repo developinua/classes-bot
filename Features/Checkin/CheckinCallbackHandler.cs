@@ -1,5 +1,6 @@
 ﻿using Features.Interfaces;
 using Features.Subscriptions;
+using Features.Subscriptions.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ public class CheckinCallbackHandler(
         botService.UseChat(request.ChatId);
         await botService.SendChatActionAsync(cancel);
 
-        var userSubscriptionId = callbackExtractorService.GetUserSubscriptionId(
+        var userSubscriptionId = callbackExtractorService.ExtractUserSubscriptionId(
             request.CallbackQuery.Data!, request.CallbackPattern);
         var userSubscription = await context.UserSubscriptions
             .AsNoTracking()

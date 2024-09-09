@@ -8,7 +8,9 @@ using Core.BotRequests;
 using Core.Settings;
 using Features.Interfaces;
 using Features.Start;
+using Features.Start.Services;
 using Features.Subscriptions;
+using Features.Subscriptions.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -35,7 +37,6 @@ public static class DependencyInjection
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserSubscriptionService, UserSubscriptionService>();
-        services.AddScoped<IUserProfileService, UserProfileService>();
 
         return services;
     }

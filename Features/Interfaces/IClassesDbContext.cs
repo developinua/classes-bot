@@ -1,6 +1,6 @@
+using Core.Aggregates.Subscription;
+using Core.Aggregates.User;
 using Core.Entities;
-using Core.Entities.Aggregates.Subscription;
-using Core.Entities.Aggregates.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 

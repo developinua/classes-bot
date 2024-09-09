@@ -1,6 +1,6 @@
 ﻿using Core.Entities.Base;
 
-namespace Core.Entities.Aggregates.User;
+namespace Core.Aggregates.User;
 
 public class UserProfile : BaseModel
 {

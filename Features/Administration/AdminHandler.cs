@@ -8,14 +8,14 @@ public class AdminHandler(IBotService botService) : IRequestHandler<AdminRequest
 {
     public async Task<Result> Handle(AdminRequest request, CancellationToken cancel)
     {
-        botService.UseChat(request.ChatId);
+        await botService.UseChat(request.ChatId, cancel);
         
         if (!CanExecuteCommand(request.Username))
         {
             await botService.SendTextMessageAsync("Access denied. You can't execute this command.", cancel);
         }
 
-        var responseMessage = $"/seed /payment-link /manage-subscriptions";
+        var responseMessage = $"/ініціалізація-даних /змінити-посилання-на-оплату /керувати-підписками";
         
         return Result.Success();
     }
@@ -23,7 +23,7 @@ public class AdminHandler(IBotService botService) : IRequestHandler<AdminRequest
     // todo: extract to permissions
     private static bool CanExecuteCommand(string username)
     {
-        var allowedUsers = new[] { "nazikBro", "taras_zouk", "kovalinas" };
+        var allowedUsers = new[] { "nazikBro", "kovalinas" };
         return allowedUsers.Any(x => x.Equals(username));
     }
 }

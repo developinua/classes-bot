@@ -1,4 +1,5 @@
 ﻿using Features.Interfaces;
+using Features.Start.Services;
 using MediatR;
 using ResultNet;
 
@@ -11,22 +12,24 @@ public class StartHandler(
 {
     public async Task<Result> Handle(StartRequest request, CancellationToken cancel)
     {
-        botService.UseChat(request.ChatId);
-        await botService.SendChatActionAsync(cancel);
+        await botService.UseChat(request.ChatId, cancel);
 
-        if (await userService.UserAlreadyRegistered(request.Username))
+        var user = await userService.GetByUsername(request.Username);
+
+        if (user.IsFailure())
         {
-            await botService.SendTextMessageAsync("Бот уже стартував :)", cancel);
+            await botService.SendTextMessageAsync($"Друже, {user.Message}", cancel);
             return Result.Success();
         }
 
-        var result = await userService.SaveUser(request.Username, request.Message, cancel);
-        
-        if (result.IsFailure()) return result;
+        if (user.Data is null)
+        {
+            await botService.SendTextMessageAsync("Друже, звернись до @nazikBro для реєстрації :)", cancel);
+            return Result.Success();
+        }
 
         await botService.SendTextMessageAsync(
-            "Натисни /subscriptions щоб переглянути чи купити собі абонемент",
-            cancel);
+            "Натисни /підписки щоб переглянути доступні чи придбати новеньку", cancel);
         return Result.Success();
     }
 }

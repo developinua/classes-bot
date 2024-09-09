@@ -1,5 +1,5 @@
-﻿using Core.Entities.Aggregates.Subscription;
-using Core.Entities.Aggregates.User;
+﻿using Core.Aggregates.Subscription;
+using Core.Aggregates.User;
 using Features.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
