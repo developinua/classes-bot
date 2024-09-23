@@ -1,4 +1,4 @@
-using Infrastructure.Db.Context;
+using Features.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddExceptionHandlers()
     .AddAppServices()
-    .AddInfrastructure(builder.Configuration)
+    .AddDynamicInfrastructureServices(builder.Configuration)
     .AddMiddlewares()
     .AddMediator()
     .AddAutoMapper()
@@ -27,6 +27,7 @@ app
     .UseMiddlewares();
 app.MapControllers();
 
-await app.MigrateDbAsync();
+var classesDbInitializer = app.Services.GetRequiredService<IClassesDbInitializer>();
+await classesDbInitializer.MigrateDbAsync(app);
 
 app.Run();

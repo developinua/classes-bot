@@ -1,0 +1,7 @@
+2024/09/19 00:53:31 [emerg] 1#1: invalid number of arguments in "http2" directive in /etc/nginx/nginx.conf:20
+2024/09/19 00:53:31 [emerg] 1#1: invalid number of arguments in "http2" directive in /etc/nginx/nginx.conf:20
+2024/09/19 00:53:32 [emerg] 1#1: invalid number of arguments in "http2" directive in /etc/nginx/nginx.conf:20
+2024/09/19 00:53:32 [emerg] 1#1: invalid number of arguments in "http2" directive in /etc/nginx/nginx.conf:20
+2024/09/19 00:53:33 [emerg] 1#1: invalid number of arguments in "http2" directive in /etc/nginx/nginx.conf:20
+2024/09/19 00:53:35 [emerg] 1#1: invalid number of arguments in "http2" directive in /etc/nginx/nginx.conf:20
+2024/09/19 00:54:29 [warn] 1#1: the "listen ... http2" directive is deprecated, use the "http2" directive instead in /etc/nginx/nginx.conf:19

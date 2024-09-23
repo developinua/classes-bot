@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gateway.Api.Controller;
+namespace Gateway.Controller;
 
 public class HealthCheckController : ControllerBase
 {

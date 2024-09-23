@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResultNet;
 using Telegram.Bot.Types;
 
-namespace Gateway.Api.Controller;
+namespace Gateway.Controller;
 
 [Route("api/v1/[controller]")]
 public class MessagesController(IUpdateService updateService, IMediator mediator) : ControllerBase

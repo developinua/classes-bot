@@ -1,22 +1,22 @@
-version: "3.8"
-
 services:
-  api:
-    container_name: api
-    image: nbulyha/classes-bot/api
+  gateway:
+    container_name: gateway
+    image: nbulyha/classes-bot/gateway
     build:
       context: ../
-      dockerfile: ./Infrastructure/api/Dockerfile
+      dockerfile: ./Infrastructure-Internal/gateway/Dockerfile
     deploy:
       resources:
         limits:
-          cpus: 1
+          cpus: '1'
           memory: 1G
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:4001;http://+:4000
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=Certificates/zouk.in.ua.pem
-      - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=Certificates/zouk.in.ua.key
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      - ASPNETCORE_HTTP_PORTS=${ASPNETCORE_HTTP_PORTS}
+      - ASPNETCORE_HTTPS_PORTS=${ASPNETCORE_HTTPS_PORTS}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=${Certificate_Path}
+      - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=${Certificate_KeyPath}
       - TelegramBot__Url=${TelegramBot_Url}
       - TelegramBot__Name=${TelegramBot_Name}
       - TelegramBot__Token=${TelegramBot_Token}
@@ -37,7 +37,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 1
+          cpus: '1'
           memory: 1G
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -59,6 +59,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./logs:/var/log/nginx
     networks:
       - classes_bot_net
 
